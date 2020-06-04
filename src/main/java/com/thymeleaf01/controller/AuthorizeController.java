@@ -2,6 +2,8 @@ package com.thymeleaf01.controller;
 
 import com.thymeleaf01.dto.AccessTokenDTO;
 import com.thymeleaf01.dto.GithubUser;
+import com.thymeleaf01.mapper.UserMapper;
+import com.thymeleaf01.model.User;
 import com.thymeleaf01.provider.GithubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,10 +11,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.UUID;
+
 @Controller
 public class AuthorizeController {
     @Autowired
     public GithubProvider githubProvider;
+    @Resource
+    private UserMapper userMapper;
 
     @Value("${github.Client_id}")
     private String clientId;
@@ -24,7 +34,9 @@ public class AuthorizeController {
     //这里忘记加"/callback"
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
-                           @RequestParam(name = "state") String state){
+                           @RequestParam(name = "state") String state,
+                           HttpServletRequest request,
+                           HttpServletResponse response) {
         System.out.println("进入callback");
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setClient_id(clientId);
@@ -33,7 +45,27 @@ public class AuthorizeController {
         accessTokenDTO.setRedirect_uri(redirectUri);
         accessTokenDTO.setState(state);
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
-        GithubUser user = githubProvider.getUser(accessToken);
-        return "index";
+        System.out.println("accessToken= "+ accessToken);
+        GithubUser githubUser = githubProvider.getUser(accessToken);
+        System.out.println("if");
+        if (githubUser != null) {
+            User user=new User();
+            String token =UUID.randomUUID().toString();
+            user.setToken(token);
+            user.setName(githubUser.getName());
+            user.setAccountId(String.valueOf(githubUser.getId()));
+            user.setGmtCreate(System.currentTimeMillis());
+            user.setGmtModified(user.getGmtCreate());
+            userMapper.insert(user);
+            response.addCookie(new Cookie("token",token));
+            //登陆成功，写cookie和session
+//            request.getSession().setAttribute("githubUser", githubUser);
+            return "index";
+        } else {
+//            登陆失败
+            System.out.println("登陆失败");
+            return "index";
+//            return "redirect:/";
+        }
     }
 }
