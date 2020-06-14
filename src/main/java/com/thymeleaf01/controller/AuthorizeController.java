@@ -61,12 +61,13 @@ public class AuthorizeController {
             response.addCookie(new Cookie("token",token));
             //登陆成功，写cookie和session
 //            request.getSession().setAttribute("githubUser", githubUser);
-            return "index";
+//            return "index";
+            return "redirect:/";
         } else {
 //            登陆失败
             System.out.println("登陆失败");
-            return "index";
-//            return "redirect:/";
+//            return "index";
+            return "redirect:/";
         }
     }
 }
