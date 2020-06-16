@@ -23,36 +23,12 @@ import java.util.List;
 @Controller
 public class Index {
     @Resource
-    private UserMapper userMapper;
-    @Resource
     private QuestionService questionService;
     //首页
     @GetMapping("/")
-    public String index(HttpServletRequest request,
-                        Model model,
+    public String index(Model model,
                         @RequestParam(name = "page" ,defaultValue = "1") Integer page,
                         @RequestParam(name = "size",defaultValue = "3")Integer size){
-        //判断以前是否登陆过
-        //获得cookie
-        Cookie[] cookies=request.getCookies();
-        System.out.println(Arrays.toString(cookies));
-        //cookie是否为空
-        if(cookies!=null && cookies.length !=0)
-            //检查浏览器缓存的cookies在数据库里有没有。
-            for (Cookie cookie : cookies){
-                System.out.println(cookie.getName());
-                if (cookie.getName().equals("token")){
-                    //cookie.getValue()写错了，index html文件写错了
-                    //在cookie里取token值
-                    String token = cookie.getValue();
-                    System.out.println(token);
-                    User user =userMapper.findByToken(token);
-                    if (user!=null){
-                        request.getSession().setAttribute("user",user);
-                    }
-                    break;
-                }
-            }
         //问题展示
         PaginationDTO pagination = questionService.list(page,size);
         model.addAttribute("pagination",pagination);
