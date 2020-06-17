@@ -1,5 +1,6 @@
 package com.thymeleaf01.mapper;
 
+import com.thymeleaf01.dto.QuestionDTO;
 import com.thymeleaf01.model.Question;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -20,4 +21,6 @@ public interface QuestionMapper {
     List<Question> listByUserId(@Param(value = "userId") Integer userId,@Param(value = "offset") Integer offset, @Param(value = "size")Integer size);
     @Select("select count(1) from question where creator = #{userId}")
     Integer countByUserId(@Param(value = "userId") Integer userId);
+    @Select("select * from question where id = #{id}")
+    QuestionDTO getById(@Param("id") Integer id);
 }
