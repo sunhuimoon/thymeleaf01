@@ -48,14 +48,13 @@ public class GithubProvider {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         // 创建Get请求
         HttpGet httpGet = new HttpGet(re);
-        CloseableHttpResponse response2 = null;
+        CloseableHttpResponse response2;
         try {
             // 由客户端执行(发送)Get请求
             response2 = httpClient.execute(httpGet);
             // 从响应模型中获取响应实体
             HttpEntity responseEntity = response2.getEntity();
             System.out.println("响应状态为:" + response2.getStatusLine());
-
             Response response = client.newCall(request).execute();
             System.out.println("response= " +response);
             String string = Objects.requireNonNull(response.body()).string();
