@@ -23,6 +23,7 @@ public class UserService {
             dbUser.setAvatarUrl(user.getAvatarUrl());
             dbUser.setName(user.getName());
             dbUser.setToken(user.getToken());
+            dbUser.setBio(user.getBio());
             userMapper.update(dbUser);
         }
     }
