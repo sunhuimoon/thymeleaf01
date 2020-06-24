@@ -16,7 +16,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
-
+//授权页
 @Controller
 public class AuthorizeController {
     @Autowired
@@ -73,6 +73,7 @@ public class AuthorizeController {
         Cookie cookie = new Cookie("token", null);
         cookie.setMaxAge(0);
         response.addCookie(cookie);
+        System.out.println("退出用户登陆");
         return "redirect:/";
     }
 }

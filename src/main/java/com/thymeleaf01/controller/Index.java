@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
-
-
-
+//首页
 @Controller
 public class Index {
     @Resource
@@ -23,7 +21,6 @@ public class Index {
         //问题展示
         PaginationDTO pagination = questionService.list(page,size);
         model.addAttribute("pagination",pagination);
-
         System.out.println("进入首页");
         return "index";
     }

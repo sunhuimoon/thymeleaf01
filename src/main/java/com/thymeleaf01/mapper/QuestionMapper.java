@@ -10,7 +10,7 @@ import java.util.List;
 public interface QuestionMapper {
     //新增问题
     @Insert("insert into question (title,description,gmt_creat,gmt_modified,creator,tag) values (#{title},#{description},#{gmtCreat},#{gmtModified},#{creator},#{tag})")
-    void create(Question question);
+    int create(Question question);
     //查询所有问题
     @Select("select * from question ORDER BY gmt_modified  DESC limit #{offset},#{size}")
     List<Question> list(@Param(value = "offset") Integer offset, @Param(value = "size")Integer size);
@@ -28,5 +28,9 @@ public interface QuestionMapper {
     QuestionDTO getById(@Param("id") Integer id);
 
     @Update("update question set title = #{title}, description =#{description}, gmt_modified=#{gmtModified},tag=#{tag} where id =#{id}")
-    void update(Question question);
+    int update(Question question);
+
+    @Update("update question set view_count = view_count+1 where id =#{id}")
+    void incView(Integer id);
+
 }

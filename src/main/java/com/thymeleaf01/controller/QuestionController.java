@@ -9,15 +9,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.annotation.Resource;
 
+//问题详情页
 @Controller
 public class QuestionController {
     @Resource
     private QuestionService questionService;
+
     @GetMapping("/question/{id}")
     public String question(@PathVariable(name = "id") Integer id,
-                           Model model){
+                           Model model) {
+        questionService.incView(id);
         QuestionDTO questionDTO = questionService.getById(id);
-        model.addAttribute("question",questionDTO);
+        model.addAttribute("question", questionDTO);
         return "question";
     }
 }

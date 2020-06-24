@@ -2,6 +2,8 @@ package com.thymeleaf01.service;
 
 import com.thymeleaf01.dto.PaginationDTO;
 import com.thymeleaf01.dto.QuestionDTO;
+import com.thymeleaf01.exception.CustomizeErrorCode;
+import com.thymeleaf01.exception.CustomizeException;
 import com.thymeleaf01.mapper.QuestionMapper;
 import com.thymeleaf01.mapper.UserMapper;
 import com.thymeleaf01.model.Question;
@@ -85,22 +87,32 @@ public class QuestionService {
 
     public QuestionDTO getById(Integer id) {
         QuestionDTO question = questionMapper.getById(id);
+        if(question ==null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question,questionDTO);
         User user = userMapper.selectByPrimaryKey(question.getCreator());
         questionDTO.setUser(user);
         return questionDTO;
-
     }
-
     public void createOrUpdate(Question question) {
         if (question.getId() == null){
             question.setGmtCreat(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreat());
-            questionMapper.create(question);
+            int create = questionMapper.create(question);
+            System.out.println("新增问题完成，返回create= "+ create);
         }else {
             question.setGmtModified(System.currentTimeMillis());
-            questionMapper.update(question);
+            int update = questionMapper.update(question);
+            if (update != 1){
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            } 
+            System.out.println("更新问题完成，返回update= "+ update);
         }
+    }
+
+    public void incView(Integer id) {
+        questionMapper.incView(id);
     }
 }

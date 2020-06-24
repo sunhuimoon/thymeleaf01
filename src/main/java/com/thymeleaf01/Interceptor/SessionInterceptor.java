@@ -11,9 +11,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
 import java.util.List;
-
+//判断以前是否登陆过
 @Service
 public class SessionInterceptor implements HandlerInterceptor {
     @Resource
@@ -23,17 +22,17 @@ public class SessionInterceptor implements HandlerInterceptor {
         //判断以前是否登陆过
         //获得cookie
         Cookie[] cookies=request.getCookies();
-        System.out.println(Arrays.toString(cookies));
+//        System.out.println("启动拦截器");
         //cookie是否为空
         if(cookies!=null && cookies.length !=0)
             //检查浏览器缓存的cookies在数据库里有没有。
             for (Cookie cookie : cookies){
-                System.out.println(cookie.getName());
+//                System.out.println(cookie.getName());
                 if (cookie.getName().equals("token")){
                     //cookie.getValue()写错了，index html文件写错了
                     //在cookie里取token值
                     String token = cookie.getValue();
-                    System.out.println(token);
+                    System.out.println("浏览器里里的token=  "+token);
                     UserExample userExample = new UserExample();
                     userExample.createCriteria()
                             .andTokenEqualTo(token);
