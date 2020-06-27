@@ -32,7 +32,7 @@ public class SessionInterceptor implements HandlerInterceptor {
                     //cookie.getValue()写错了，index html文件写错了
                     //在cookie里取token值
                     String token = cookie.getValue();
-                    System.out.println("浏览器里里的token=  "+token);
+//                    System.out.println("浏览器里里的token=  "+token);
                     UserExample userExample = new UserExample();
                     userExample.createCriteria()
                             .andTokenEqualTo(token);
