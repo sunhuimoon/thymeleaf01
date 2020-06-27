@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate-->
 <!DOCTYPE generatorConfiguration
         PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
@@ -31,7 +32,8 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
-        <table tableName="user" domainObjectName="User" ></table>
+        <table tableName="user" domainObjectName="User"/>
+        <table tableName="comment" domainObjectName="Comment"/>
 
     </context>
 </generatorConfiguration>

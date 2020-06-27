@@ -19,18 +19,20 @@ public interface QuestionMapper {
     Integer count();
     //查询该用户所有问题
     @Select("select * from question where creator = #{userId} ORDER BY gmt_modified DESC limit #{offset},#{size}")
-    List<Question> listByUserId(@Param(value = "userId") Integer userId,@Param(value = "offset") Integer offset, @Param(value = "size")Integer size);
+    List<Question> listByUserId(@Param(value = "userId") Long userId,@Param(value = "offset") Integer offset, @Param(value = "size")Integer size);
    //查询该用户问题总条数
     @Select("select count(1) from question where creator = #{userId}")
-    Integer countByUserId(@Param(value = "userId") Integer userId);
+    Integer countByUserId(@Param(value = "userId") Long userId);
     //根据问题id查问题
     @Select("select * from question where id = #{id}")
-    QuestionDTO getById(@Param("id") Integer id);
+    QuestionDTO getById(@Param("id") Long id);
 
     @Update("update question set title = #{title}, description =#{description}, gmt_modified=#{gmtModified},tag=#{tag} where id =#{id}")
     int update(Question question);
-
+    //问题浏览数
     @Update("update question set view_count = view_count+1 where id =#{id}")
-    void incView(Integer id);
-
+    void incView(Long id);
+    //问题评论数
+    @Update("update question set comment_count = comment_count+1 where id =#{id}")
+    void incCommentCount(Long id);
 }
