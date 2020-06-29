@@ -101,9 +101,6 @@ public class QuestionService {
             //创建问题
             question.setGmtCreat(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreat());
-//            question.setViewCount(0);
-//            question.setLikeCount(0);
-//            question.setCommentCount(0);
             int create = questionMapper.create(question);
             System.out.println("新增问题完成，返回create= "+ create);
         }else {

@@ -1,15 +1,17 @@
 package com.thymeleaf01.dto;
 
+import com.thymeleaf01.model.User;
 import lombok.Data;
 
 @Data
 public class CommentDTO {
+    private Long id;
     private Long parentId;
-    private String content;
     private Integer type;
+    private Long commentator;
+    private Long gmtCreate;
+    private Long gmtModified;
+    private Long likeCount;
+    private String content;
+    private User user;
 }
-//{
-//        "parentId" :"1",
-//        "content" : "急急急急急急较简洁",
-//        "type": "1"
-//        }

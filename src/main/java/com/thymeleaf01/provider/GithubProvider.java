@@ -38,7 +38,7 @@ public class GithubProvider {
     }
     public GithubUser getUser(String accessToken){
         OkHttpClient client = new OkHttpClient();
-        System.out.println("进入到提取user信息方法");
+//        System.out.println("进入到提取user信息方法");
         Request request = new Request.Builder()
                 .url("https://api.github.com/user?access_token=" + accessToken)
                 .build();
@@ -58,7 +58,7 @@ public class GithubProvider {
             Response response = client.newCall(request).execute();
             System.out.println("response= " +response);
             String string = Objects.requireNonNull(response.body()).string();
-            System.out.println("string= " +string);
+//            System.out.println("string= " +string);
             GithubUser githubUser = JSON.parseObject(string,GithubUser.class);
             System.out.println("githubUser= " +githubUser);
 //            System.out.println("名称  "+githubUser.getName()+"  ID   "+githubUser.getId()+"  描述" +githubUser.getBio());
